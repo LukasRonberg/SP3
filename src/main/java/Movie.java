@@ -1,2 +1,2 @@
-public class Movie implements Media{
+public class Movie extends Media{
 }

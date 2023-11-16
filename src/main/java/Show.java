@@ -1,2 +1,2 @@
-public class Show implements Media{
+public class Show extends Media{
 }
