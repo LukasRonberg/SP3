@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+Object StartMenu
+Object MainMenu
+Object Movie
+Object Show
+Object TextUI
+Object FileIO
+Object Media
+Object User
+
+StartMenu *-- User
+MainMenu *-- User
+
+MainMenu *-- Media
+
+Media *-- Movie
+Media *-- Show
+
+@enduml
