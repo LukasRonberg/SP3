@@ -1,14 +1,52 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class StartMenu
+Class StartMenu
+StartMenu : - HashSet<User> userList
+
+StartMenu : + void createUser()
+StartMenu : + void Login()
+
 Class MainMenu
+MainMenu : - ArrayList<Media> allMedia
+MainMenu : + void searchByName(String title)
+MainMenu : + void searchByCategory(ArrayList<String> categories)
+MainMenu : + void viewSeenMedia()
+MainMenu : + void viewSavedMedia()
+MainMenu : + void savedMediaToUser()
+
 Class Movie
 Class Show
+Show : - int yearEnded
+Show : - int [][]seasonAndEpisodes
+Show : + void playEpisode(int[][])
+
 Class TextUI
+TextUI : - ReportError
+
 Class FileIO
+FileIO : + ArrayList<Show> readShowsFromFile(String path)
+FileIO : + ArrayList<Movie> readMoviesFromFile(String path)
+FileIO : + void saveUserData()
+FileIO : + void readUserData()
+
 abstract Media
+Media : - String title
+Media : - int yearReleased
+Media : - double rating
+Media : - ArrayList<String> categories
+Media : + void Play()
+Media : + void Stop()
+
 class User
+User : - String username
+User : - String password
+User : - ArrayList<Media> seenMedia
+User : - ArrayList<Media> savedMedia
+
+User : + void addMediaToSeen()
+User : + void addMediaToSaved()
+User : + void RemoveFromSaved()
 
 StartMenu *-- User
 MainMenu *-- User

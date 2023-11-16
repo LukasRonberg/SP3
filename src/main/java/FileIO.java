@@ -3,11 +3,21 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class FileIO {
 
-    public ArrayList<String> readPlayerData(String path) {
+    public ArrayList<Show> readShowsFromFile (String path){
+        return null;
+    }
+    public ArrayList<Movie> readMoviesFromFile (String path){
+        return null;
+    }
+
+
+
+    public HashSet<User> readUserData(String path) {
         ArrayList<String> data = new ArrayList<>();
         //instantier File
         File file = new File(path);
@@ -26,20 +36,18 @@ public class FileIO {
         return data;
     }
 
-    public void savePlayerData(ArrayList<Player> players){
-        try
-
-        {
+    public void saveUserData(HashSet<User> users) {
+        try {
             FileWriter writer = new FileWriter("src/data.txt");
             writer.write("Name,Balance" + "\n");
-            for (Player c : players) {
-                String textTosave = c.getName() + "," + c.getBalance();
+            for (User c : users) {
+                String textTosave = c.getName() + "," + c.getPassword();
                 writer.write(textTosave + "\n");//Egon,5200
             }
             writer.close();
-        } catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("noget gik galt ved skrivning til fil");
         }
 
     }
+}
