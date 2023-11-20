@@ -5,6 +5,7 @@ public class Movie extends Media{
         super(title, yearReleased, categories, rating);
     }
 
+
     // TODO: 20-11-2023 Skal lige gøres finere
     @Override
     public String toString() {

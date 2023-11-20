@@ -1,8 +1,15 @@
 import java.util.ArrayList;
 
 public abstract class Media {
+    protected String Title;
+    protected String yearReleased;
+    protected Double Rating;
+    protected ArrayList<String> Categories;
 
-    String Title;
+
+    public String getTitle() {
+        return Title;
+    }
 
     public Media(String title, String yearReleased, ArrayList<String> categories, Double rating) {
         Title = title;
@@ -11,11 +18,16 @@ public abstract class Media {
         Rating = rating;
     }
 
-    String yearReleased;
+    public String getYearReleased() {
+        return yearReleased;
+    }
 
-    Double Rating;
-
-    protected ArrayList<String> Categories = new ArrayList<String>();
+    public Double getRating() {
+        return Rating;
+    }
+    public ArrayList<String> getCategories() {
+        return Categories;
+    }
 
 
     public void Play() {

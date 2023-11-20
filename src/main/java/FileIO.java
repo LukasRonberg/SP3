@@ -15,7 +15,6 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(file);
-            //scan.nextLine(); //Skip header
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();// Hele linjen vil stå i én string   ==>  "Egon, 200
                 var stringSplit = s.split(";");
@@ -42,13 +41,11 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(file);
-            //scan.nextLine(); //Skip header
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();// Hele linjen vil stå i én string   ==>  "Egon, 200
                 var stringSplit = s.split(";");
                 data.add(new Movie(stringSplit[0],
                         stringSplit[1].trim(),
-                        //new ArrayList<String>(Arrays.asList(stringSplit[2])),
                         getStringList(stringSplit[2]),
                         Double.parseDouble(stringSplit[3].trim().replace(',','.'))
                 ));
@@ -79,8 +76,6 @@ public class FileIO {
     }
 
     private ArrayList<Media> getList(String input){
-
-
 
         return null;
     }
