@@ -4,11 +4,18 @@ public abstract class Media {
 
     String Title;
 
-    int yearReleased;
+    public Media(String title, String yearReleased, ArrayList<String> categories, Double rating) {
+        Title = title;
+        this.yearReleased = yearReleased;
+        Categories = categories;
+        Rating = rating;
+    }
+
+    String yearReleased;
 
     Double Rating;
 
-    private ArrayList<String> Categories = new ArrayList<String>();
+    protected ArrayList<String> Categories = new ArrayList<String>();
 
 
     public void Play() {
