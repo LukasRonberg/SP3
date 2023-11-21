@@ -9,12 +9,8 @@ public class MainMenu {
     private ArrayList<Media> allMedia = new ArrayList<>();
 
     public void searchByName(String title) {
-        ArrayList<Show> shows = io.readShowsFromFile("100bedsteserier.txt");
-        ArrayList<Movie> movies = io.readMoviesFromFile("100bedstefilm.txt");
-        allMedia.addAll(shows);
-        allMedia.addAll(movies);
-
         boolean found = false;
+        // TODO: 21/11/2023 brug contains og gem objektet. funktionen skal kunne finde filmen, fx the godfather hvis bare man skriver god
         for (Media m : allMedia) {
             if (m.getTitle().equalsIgnoreCase(title)) {
                 found = true;
@@ -24,33 +20,30 @@ public class MainMenu {
         if (found) {
             if (ui.getInput("We have " + title + ". Would you like to watch? (Y/N)").equalsIgnoreCase("Y")) {
                 //Play metode skal indsættes her
-            } else {
-                String response = ui.getInput("We do not have " + title + ". Do you want to keep searching?(Y/N)");
-                if (response.equalsIgnoreCase("Y")) {
-                    String newSearch = ui.getInput("Enter the title to search again: ");
-                    searchByName(newSearch);
-                } else {
+            }  else {
                     //return til menu metode og besked??
                 }
+            } else {
+            String response = ui.getInput("We do not have " + title + ". Do you want to keep searching?(Y/N)");
+            if (response.equalsIgnoreCase("Y")) {
+                String newSearch = ui.getInput("Enter the title to search again: ");
+                searchByName(newSearch);
             }
         }
     }
 
-    public void searchByCategories(ArrayList<String> Categories) {
-        ArrayList<Show> shows = io.readShowsFromFile("100bedsteserier.txt");
-        ArrayList<Movie> movies = io.readMoviesFromFile("100bedstefilm.txt");
-        allMedia.addAll(shows);
-        allMedia.addAll(movies);
-
-        ArrayList<String> titles = new ArrayList<>();
-
+    public void searchByCategories(String categories) {
+        ArrayList<Media> titles = new ArrayList<>();
+// TODO: 21/11/2023 skal kunne søge på flere kategorier på en gang
         boolean found = false;
         for (Media m : allMedia) {
-            if (m.getCategories().containsAnyIgnoreCase()) {
-                titles.add(m.getTitle());
+            if (m.getCategories().contains(categories)) {
+                titles.add(m);
+                found = true;
             }
         }
-        if(!titles.isEmpty()){
+
+        if(found){
             ui.displayMessage("List of shows that have the categories: ");
             for(int i = 0;i < titles.size() ;i++){
                 ui.displayMessage((i + 1)+") "+titles.get(i));
@@ -58,6 +51,7 @@ public class MainMenu {
             int choice = 0;
             do{
             try{
+                // TODO: 21/11/2023 ui.getInput skal ændres på et tidspunkt til ui.getInt, så vi fjerner Integer.praseInt
                choice = Integer.parseInt(ui.getInput("Enter the number to select the movie/show."));
                 if(choice < 0 || choice > titles.size()){
                     ui.displayMessage("Invalid. Please pick a number between 1 and "+titles.size());
@@ -67,12 +61,21 @@ public class MainMenu {
             }
         } while (choice < 0 || choice > titles.size());
             if(choice !=0){
-                String selected = titles.get(choice - 1);
+                Media selected = titles.get(choice - 1);
                 ui.displayMessage("You selected: " + selected);
                 //Play metode
             } else {
                 ui.displayMessage("Returning to Menu");
                 //Return til menu
+            }
+        } else {
+            String response = ui.getInput("We do not have " + categories + ". Do you want to keep searching?(Y/N)");
+            if (response.equalsIgnoreCase("Y")) {
+
+                searchByCategories(ui.getInput("Enter the categories to search again: "));
+
+            } else {
+                ui.displayMessage("Returning to menu");
             }
         }
     }
@@ -82,13 +85,13 @@ public class MainMenu {
     User user = new User();
 
     public void viewSeenMedia() {
-        ArrayList<Media> seenMedia = user.getSeenMedia(SeenMedia);
+        ArrayList<Media> seenMedia = user.getSeenMedia();
         if (seenMedia.isEmpty()) {
             ui.displayMessage("You have not watched anything yet.");
         } else {
             ui.displayMessage("Your seen media: ");
             for (Media media : seenMedia) {
-                ui.displayMessage(media.getTitle() + "\n");
+                ui.displayMessage(media.getTitle());
             }
         }
     }
@@ -100,8 +103,14 @@ public class MainMenu {
         } else {
             ui.displayMessage("Your seen media: ");
             for (Media media : savedMedia) {
-                ui.displayMessage(media.getTitle() + "\n");
+                ui.displayMessage(media.getTitle());
             }
         }
+    }
+    public void startUp(){
+        ArrayList<Show> shows = io.readShowsFromFile("src/main/java/100bedsteserier.txt");
+        ArrayList<Movie> movies = io.readMoviesFromFile("src/main/java/100bedstefilm.txt");
+        allMedia.addAll(shows);
+        allMedia.addAll(movies);
     }
 }
