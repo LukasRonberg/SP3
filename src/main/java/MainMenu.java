@@ -8,17 +8,20 @@ public class MainMenu {
     FileIO io = new FileIO();
     private ArrayList<Media> allMedia = new ArrayList<>();
 
-    public void searchByName(String title) {
+    public void searchByName(String title, User currentUser) {
+        Media media = null;
         boolean found = false;
         // TODO: 21/11/2023 brug contains og gem objektet. funktionen skal kunne finde filmen, fx the godfather hvis bare man skriver god
         for (Media m : allMedia) {
             if (m.getTitle().equalsIgnoreCase(title)) {
                 found = true;
+                media = m;
                 break;
             }
         }
         if (found) {
             if (ui.getInput("We have " + title + ". Would you like to watch? (Y/N)").equalsIgnoreCase("Y")) {
+                currentUser.addMediaToSaved(media);
                 //Play metode skal indsættes her
             }  else {
                     //return til menu metode og besked??
@@ -27,7 +30,7 @@ public class MainMenu {
             String response = ui.getInput("We do not have " + title + ". Do you want to keep searching?(Y/N)");
             if (response.equalsIgnoreCase("Y")) {
                 String newSearch = ui.getInput("Enter the title to search again: ");
-                searchByName(newSearch);
+                searchByName(newSearch, currentUser);
             }
         }
     }
@@ -83,7 +86,7 @@ public class MainMenu {
 
     //Vi skal nok have en currentUser på en eller anden måde
     //Mangler getter på seenMedia, som er private i User klassen
-    User user = new User();
+    //User user = new User();
 
     public void viewSeenMedia() {
         ArrayList<Media> seenMedia = user.getSeenMedia();
