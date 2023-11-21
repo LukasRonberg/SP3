@@ -21,12 +21,4 @@ public class Show extends Media{
         return this.Title +" "+ this.yearReleased +" "+ this.Categories.toString() +" "+ this.Rating + " "+ this.SeasonAndEpisodes.toString();
     }
 
-
-
-
-
-
-
-
-
 }
