@@ -1,6 +1,3 @@
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 //Tænker vi skal have en showMenu metode måske, som giver en
@@ -85,7 +82,7 @@ public class MainMenu {
     User user = new User();
 
     public void viewSeenMedia() {
-        ArrayList<Media> seenMedia = user.getSeenMedia();
+        ArrayList<Media> seenMedia = user.getSeenMedia(SeenMedia);
         if (seenMedia.isEmpty()) {
             ui.displayMessage("You have not watched anything yet.");
         } else {
