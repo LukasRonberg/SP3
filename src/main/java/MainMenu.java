@@ -88,8 +88,8 @@ public class MainMenu {
     //Mangler getter på seenMedia, som er private i User klassen
     //User user = new User();
 
-    public void viewSeenMedia() {
-        ArrayList<Media> seenMedia = user.getSeenMedia();
+    public void viewSeenMedia(User currentUser) {
+        ArrayList<Media> seenMedia = currentUser.getSeenMedia();
         if (seenMedia.isEmpty()) {
             ui.displayMessage("You have not watched anything yet.");
         } else {
@@ -100,8 +100,8 @@ public class MainMenu {
         }
     }
 
-    public void viewSavedMedia() {
-        ArrayList<Media> savedMedia = user.getSavedMedia();
+    public void viewSavedMedia(User currentUser) {
+        ArrayList<Media> savedMedia = currentUser.getSavedMedia();
         if (savedMedia.isEmpty()) {
             ui.displayMessage("You have not watched anything yet.");
         } else {
