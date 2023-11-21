@@ -43,6 +43,7 @@ public class MainMenu {
             }
         }
 
+
         if(found){
             ui.displayMessage("List of shows that have the categories: ");
             for(int i = 0;i < titles.size() ;i++){

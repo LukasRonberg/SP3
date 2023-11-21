@@ -5,7 +5,7 @@ Class StartMenu
 StartMenu : - HashSet<User> userList
 
 StartMenu : + void createUser()
-StartMenu : + void Login()
+StartMenu : + void login()
 
 Class MainMenu
 MainMenu : - ArrayList<Media> allMedia
@@ -13,7 +13,7 @@ MainMenu : + void searchByName(String title)
 MainMenu : + void searchByCategory(ArrayList<String> categories)
 MainMenu : + void viewSeenMedia()
 MainMenu : + void viewSavedMedia()
-MainMenu : + void savedMediaToUser()
+MainMenu : + void startUp()
 
 Class Movie
 Class Show
@@ -22,7 +22,8 @@ Show : - int [][]seasonAndEpisodes
 Show : + void playEpisode(int[][])
 
 Class TextUI
-TextUI : - ReportError
+TextUI : + void displayMessage()
+TextUI : + void getInput()
 
 Class FileIO
 FileIO : + ArrayList<Show> readShowsFromFile(String path)
@@ -35,8 +36,8 @@ Media : - String title
 Media : - int yearReleased
 Media : - double rating
 Media : - ArrayList<String> categories
-Media : + void Play()
-Media : + void Stop()
+Media : + void play()
+Media : + void stop()
 
 class User
 User : - String username
@@ -46,15 +47,17 @@ User : - ArrayList<Media> savedMedia
 
 User : + void addMediaToSeen()
 User : + void addMediaToSaved()
-User : + void RemoveFromSaved()
+User : + void removeFromSaved()
 
-StartMenu *-- User
-MainMenu *-- User
+StartMenu --> User
+MainMenu --> User
+MainMenu --> Media
 
-MainMenu *-- Media
+Media <-- Movie
+Media <-- Show
 
-Media *-- Movie
-Media *-- Show
+MainMenu <-- TextUI
+MainMenu <-- FileIO
 
 
 @enduml
