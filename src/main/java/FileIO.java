@@ -38,7 +38,6 @@ public class FileIO {
         ArrayList<Movie> data = new ArrayList<>();
         //instantier File
         File file = new File(path);
-
         try {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
@@ -80,7 +79,7 @@ public class FileIO {
         return null;
     }
 
-/*
+
     public HashSet<User> readUserData(String path) {
         HashSet<User> data = new HashSet<>();
         //instantier File
@@ -91,12 +90,13 @@ public class FileIO {
             //scan.nextLine(); //Skip header
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();// Hele linjen vil stå i én string   ==>  "Egon, 200"
+                if(s.isEmpty()) break;
                 var splitString = s.split(";");
                 // TODO: 20-11-2023 Opsæt user ved hjælp af Mikkels arbejde 
                 data.add(new User(splitString[0],
                         splitString[1],
-                        new ArrayList<Media>(Arrays.asList(splitString[2])),
-                        new ArrayList<Media>(Arrays.asList(splitString[3]))
+                        new ArrayList<Media>(/*Arrays.asList(splitString[2])*/),
+                        new ArrayList<Media>(/*Arrays.asList(splitString[3])*/)
                 ));
             }
         } catch (FileNotFoundException e) {
@@ -109,9 +109,9 @@ public class FileIO {
 
     public void saveUserData(HashSet<User> users) {
         try {
-            FileWriter writer = new FileWriter("src/userdata.txt");
+            FileWriter writer = new FileWriter("src/main/java/userdata.txt");
             for (User user : users) {
-                writer.write(user.Username + ";"+ user.Password + ";" + user.getSavedMedia() + ";" + user.getSeenMedia() + ";");
+                writer.write(user.Username + ";"+ user.Password + ";" + user.getSavedMedia() + ";" + user.getSeenMedia() + ";\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -119,15 +119,16 @@ public class FileIO {
         }
     }
 
+    // TODO: 21-11-2023 FIKS DETTE SÅ DET IKKE BLIVER OVERSKREVET 
     public void appendSingleUser(User user){
         try {
-            FileWriter writer = new FileWriter("src/userdata.txt");
+            FileWriter writer = new FileWriter("src/main/java/userdata.txt");
 
-            writer.write(user.Username + ";"+ user.Password + ";" + user.getSavedMedia() + ";" + user.getSeenMedia() + ";");
+            writer.append(user.Username + ";"+ user.Password + ";" + user.getSavedMedia() + ";" + user.getSeenMedia() + ";\n");
 
             writer.close();
         } catch (IOException e) {
             System.out.println("noget gik galt ved skrivning til fil");
         }
-    }*/
+    }
 }
