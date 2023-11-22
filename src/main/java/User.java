@@ -12,6 +12,10 @@ public class User {
 
     private ArrayList<Media> savedMedia = new ArrayList<>();
 
+    public User() {
+
+    }
+
 
     public void AddMediaToSeen(Media media) {
         seenMedia.add(media);
