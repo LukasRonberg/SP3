@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,25 +21,31 @@ public class Main {
             }
         }
         if(currentUser != null && loggedIn){
+            boolean quit = false;
             mainMenu.startUp();
             while(true) {
                 String choice = textUI.getInput("Press any of the keys to access content\n" +
                         "1. Search By Name\n" +
-                        "2. Search By Categorie\n" +
+                        "2. Search By Categories\n" +
                         "3. View Seen\n" +
-                        "4. View Saved");
+                        "4. View Saved\n" +
+                        "5. Quit");
                 switch (choice) {
                     case "1":
                         mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"),currentUser);
                         break;
                     case "2":
-                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"));
+                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"), currentUser);
                         break;
                     case "3":
                         mainMenu.viewSeenMedia(currentUser);
                         break;
                     case "4":
                         mainMenu.viewSavedMedia(currentUser);
+                        break;
+                    case "5":
+                        System.out.println("Thank you for using our streaming website, the application will now close.");
+                        System.exit(0);
                         break;
                 }
             }

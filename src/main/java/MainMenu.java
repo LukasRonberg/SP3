@@ -39,8 +39,8 @@ public class MainMenu {
     public void searchByCategories(String categories, User currentUser) {
         ArrayList<Media> titles = new ArrayList<>();
         Media media = null;
-// TODO: 21/11/2023 skal kunne søge på flere kategorier på en gang
-        // TODO: 21/11/2023 tilføj parameter currentuser og gør at media bliver tilføjet til seen efter play metode
+// TODO: 21/11/2023 skal kunne søge på flere kategorier på én gang
+        // TODO: 21/11/2023 tilføj parameter currentUser og gør at media bliver tilføjet til seen efter play metode
         boolean found = false;
         for (Media m : allMedia) {
             if (m.getCategories().contains(categories)) {
