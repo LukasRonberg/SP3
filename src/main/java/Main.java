@@ -29,10 +29,10 @@ public class Main {
                         "4. View Saved");
                 switch (choice) {
                     case "1":
-                        mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"));
+                        mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"), currentUser);
                         break;
                     case "2":
-                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"));
+                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"), currentUser);
                         break;
                     case "3":
                         mainMenu.viewSeenMedia(currentUser);

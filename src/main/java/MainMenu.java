@@ -70,18 +70,12 @@ public class MainMenu {
         } else {
             String response = ui.getInput("We do not have " + categories + ". Do you want to keep searching?(Y/N)");
             if (response.equalsIgnoreCase("Y")) {
-// TODO: 22/11/2023 Reminder. searchByCategories kræver nu en ny parameter, currentUser?
                 searchByCategories(ui.getInput("Enter the categories to search again: "), currentUser);
-
             } else {
                 ui.displayMessage("Returning to menu");
             }
         }
     }
-
-    //Vi skal nok have en currentUser på en eller anden måde
-    //Mangler getter på seenMedia, som er private i User klassen
-    //User user = new User();
 
     public void viewSeenMedia(User currentUser) {
         ArrayList<Media> seenMedia = currentUser.getSeenMedia();
