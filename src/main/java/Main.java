@@ -21,7 +21,6 @@ public class Main {
             }
         }
         if(currentUser != null && loggedIn){
-            boolean quit = false;
             mainMenu.startUp();
             while(true) {
                 String choice = textUI.getInput("Press any of the keys to access content\n" +
@@ -45,6 +44,7 @@ public class Main {
                         break;
                     case "5":
                         System.out.println("Thank you for using our streaming website, the application will now close.");
+                        fileHandler.saveUserData(fileHandler.readUserData("src/main/java/userdata.txt"), currentUser);
                         System.exit(0);
                         break;
                 }

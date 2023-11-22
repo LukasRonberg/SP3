@@ -9,6 +9,6 @@ public class Movie extends Media{
     // TODO: 20-11-2023 Skal lige gøres finere
     @Override
     public String toString() {
-        return this.Title +" "+ this.yearReleased +" "+ this.Categories.toString() +" "+ this.Rating;
+        return this.Title +". "+ this.yearReleased +". "+ this.Categories.toString() +". "+ this.Rating +":";
     }
 }
