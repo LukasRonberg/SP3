@@ -40,10 +40,12 @@ public class Main {
                         break;
                     case "3":
                         mainMenu.searchByYear(textUI.getInput("Please enter the year(s) of your desired movie"), currentUser);
+                        break;
                     case "4":
                         //TODO Eksistere som en Double, skal have den til, at fungere iblandt de andre Strings
-                      //  Double ratingChoice = textUI.getInput("Press any of the keys to access content\n" +
-                     //   mainMenu.searchByRating(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"), currentUser);
+                        //Double ratingChoice = textUI.getInput("Press any of the keys to access content\n" +
+                        mainMenu.searchByRating((Double.parseDouble(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"))), currentUser);
+                        break;
                     case "5":
                         mainMenu.viewSeenMedia(currentUser);
                         break;
@@ -62,7 +64,7 @@ public class Main {
         ArrayList<Show> shows = fileHandler.readShowsFromFile("src/main/java/100bedsteserier.txt");
 
         //Display all Movies
-        System.out.println("Movies:");
+        System.out.println("\n Movies:");
         for (Movie movie : movies){
             System.out.println(movie);
         }

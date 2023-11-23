@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.Function;
 
 //Tænker vi skal have en showMenu metode måske, som giver en
 //de forskellige muligheder man kan vælge imellem
@@ -10,31 +11,19 @@ public class MainMenu {
     private ArrayList<Media> allMedia = new ArrayList<>();
 
     public void searchByName(String title, User currentUser) {
-        Media media = null;
+        ArrayList<Media> media = new ArrayList<Media>();
+
         boolean found = false;
         // TODO: 21/11/2023 brug contains og gem objektet. funktionen skal kunne finde filmen, fx the godfather hvis bare man skriver god
         // TODO: 21/11/2023 den skal spørge om man vil tilføje mediet til savedMedia eller om man vil se den med det samme
         for (Media m : allMedia) {
             if (m.getTitle().equalsIgnoreCase(title)) {
                 found = true;
-                media = m;
+                media.add(m);
                 break;
             }
         }
-        if (found) {
-            if (ui.getInput("We have " + title + ". Would you like to watch? (Y/N)").equalsIgnoreCase("Y")) {
-                currentUser.AddMediaToSeen(media);
-                //Play metode skal indsættes her
-            } else {
-                //return til menu metode og besked??
-            }
-        } else {
-            String response = ui.getInput("We do not have " + title + ". Do you want to keep searching?(Y/N)");
-            if (response.equalsIgnoreCase("Y")) {
-                String newSearch = ui.getInput("Enter the title to search again: ");
-                searchByName(newSearch, currentUser);
-            }
-        }
+        checkIfFound(found, media, currentUser, "title: \"" + title, "searchByName");
     }
 
     public void searchByCategories(String categories, User currentUser) {
@@ -50,9 +39,12 @@ public class MainMenu {
                 media = m;
             }
         }
+        checkIfFound(found, titles, currentUser, "categories: \""+categories, "searchByCategories");
+    }
 
+    private void checkIfFound(Boolean found, ArrayList<Media> titles, User currentUser, String SearchType, String currentFunction){
         if (found) {
-            ui.displayMessage("List of shows that have the categories: ");
+            ui.displayMessage("List of media that have the "+SearchType+"\": ");
             for (int i = 0; i < titles.size(); i++) {
                 ui.displayMessage((i + 1) + ") " + titles.get(i));
             }
@@ -69,87 +61,53 @@ public class MainMenu {
                 //Return til menu
             }
         } else {
-            String response = ui.getInput("We do not have " + categories + ". Do you want to keep searching?(Y/N)");
+            String response = ui.getInput("We do not have anything with the " + SearchType + "\". Do you want to keep searching?(Y/N)");
             if (response.equalsIgnoreCase("Y")) {
-                searchByCategories(ui.getInput("Enter the categories to search again: "), currentUser);
+                switch (currentFunction) {
+                    case "searchByCategories" ->
+                            searchByCategories(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                    case "searchByName" ->
+                            searchByName(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                    case "searchByYear" ->
+                            searchByYear(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                    case "searchByRating" ->
+                            searchByRating(Double.parseDouble(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: ")), currentUser);
+                }
             } else {
                 ui.displayMessage("Returning to menu");
             }
         }
     }
+
 
     public void searchByYear(String yearReleased, User currentUser) {
         ArrayList<Media> years = new ArrayList<>();
         Media media = null;
         boolean found = false;
         for (Media m : allMedia) {
-            if (m.getYearReleased().contains(yearReleased)) {
+            if (m.getYearReleased().contains(yearReleased) && !yearReleased.isEmpty()) {
                 years.add(m);
                 found = true;
                 media = m;
             }
         }
 
-        if (found) {
-            ui.displayMessage("Our list of shows which was released in " + yearReleased);
-            for (int i = 0; i < years.size(); i++) {
-                ui.displayMessage((i + 1) + ") " + years.get(i));
-            }
-
-            int choice = userChoice(years.size());
-
-            if (choice != 0) {
-                Media selected = years.get(choice - 1);
-                ui.displayMessage("You selected: " + selected);
-                currentUser.AddMediaToSeen(selected);
-            } else {
-                ui.displayMessage("Returning to Menu");
-            }
-        } else {
-            String response = ui.getInput("We don't have any shows from the selected " + years + ". Do you want to keep searching?(Y/N)");
-            if (response.equalsIgnoreCase("Y")) {
-                searchByCategories(ui.getInput("Enter the year(s) to search again: "), currentUser);
-            } else {
-                ui.displayMessage("Returning to menu");
-            }
-        }
+        checkIfFound(found, years,currentUser, "year(s): \""+yearReleased,"searchByYear");
     }
 
 
-    public ArrayList<Media> searchByRating(Double Rating, User currentUser) {
+    public void searchByRating(Double Rating, User currentUser) {
         ArrayList<Media> rating = new ArrayList<>();
         boolean found = false;
         for (Media media : allMedia) {
-            if (Objects.equals(media.getRating(), media.Rating)) {
+            if (media.getRating() == Rating) {
                 rating.add(media);
                 found = true;
             }
-
-            if (found) {
-                ui.displayMessage("List of shows that have the ratings: ");
-                for (int i = 0; i < rating.size(); i++) {
-                    ui.displayMessage((i + 1) + ") " + rating.get(i));
-                }
-
-                int choice = userChoice(rating.size());
-
-                if (choice != 0) {
-                    Media selected = rating.get(choice - 1);
-                    ui.displayMessage("You selected: " + selected);
-                    currentUser.AddMediaToSeen(selected);
-                } else {
-                    ui.displayMessage("Returning to Menu");
-                }
-            } else {
-                String response = ui.getInput("We do not have the selected " + rating + ". Do you want to keep searching?(Y/N)");
-                if (response.equalsIgnoreCase("Y")) {
-                    searchByCategories(ui.getInput("Enter the rating to search again: "), currentUser);
-                } else {
-                    ui.displayMessage("Returning to menu");
-                }
-            }
         }
-        return rating;
+            checkIfFound(found, rating, currentUser, "rating: \"" +Rating, "searchByRating");
+
+        //return rating;
     }
     public void viewSeenMedia(User currentUser) {
         ArrayList<Media> seenMedia = currentUser.getSeenMedia();
