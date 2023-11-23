@@ -26,9 +26,11 @@ public class Main {
                 String choice = textUI.getInput("Press any of the keys to access content\n" +
                         "1. Search By Name\n" +
                         "2. Search By Categories\n" +
-                        "3. View Seen\n" +
-                        "4. View Saved\n" +
-                        "5. Quit");
+                        "3. Search By Years\n" +
+                        "4. Search By Rating\n" +
+                        "5. View Seen\n" +
+                        "6. View Saved\n" +
+                        "7. Quit");
                 switch (choice) {
                     case "1":
                         mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"),currentUser);
@@ -37,12 +39,18 @@ public class Main {
                         mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"), currentUser);
                         break;
                     case "3":
+                        mainMenu.searchByYear(textUI.getInput("Please enter the year(s) of your desired movie"), currentUser);
+                    case "4":
+                        //TODO Eksistere som en Double, skal have den til, at fungere iblandt de andre Strings
+                      //  Double ratingChoice = textUI.getInput("Press any of the keys to access content\n" +
+                     //   mainMenu.searchByRating(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"), currentUser);
+                    case "5":
                         mainMenu.viewSeenMedia(currentUser);
                         break;
-                    case "4":
+                    case "6":
                         mainMenu.viewSavedMedia(currentUser);
                         break;
-                    case "5":
+                    case "7":
                         System.out.println("Thank you for using our streaming website, the application will now close.");
                         fileHandler.saveUserData(fileHandler.readUserData("src/main/java/userdata.txt"), currentUser);
                         System.exit(0);
