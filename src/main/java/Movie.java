@@ -5,6 +5,10 @@ public class Movie extends Media{
         super(title, yearReleased, categories, rating);
     }
 
+    @Override
+    public void Play() {
+        System.out.println("You are now playing the movie: " + this.Title + ".");
+    }
 
     // TODO: 20-11-2023 Skal lige gøres finere
     @Override

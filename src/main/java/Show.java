@@ -10,9 +10,17 @@ public class Show extends Media{
         SeasonAndEpisodes = seasonAndEpisodes;
     }
 
+    public ArrayList<String> getSeasonAndEpisodes(){
+        return SeasonAndEpisodes;
+    }
 
-    public void PlayEpisode(int[][]E) {
+    @Override
+    public void Play() {
+        System.out.println("You are now playing the show: " + this.Title + ".");
+    }
 
+    public void PlayEpisode(int season, int episode) {
+        System.out.println("You are now playing the show: " + this.Title + ", Season: " + season + ", Episode: " + episode);
     }
 
     // TODO: 20-11-2023 Skal lige gøres finere 

@@ -1,3 +1,5 @@
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,13 +16,10 @@ public class MainMenu {
         ArrayList<Media> media = new ArrayList<Media>();
 
         boolean found = false;
-        // TODO: 21/11/2023 brug contains og gem objektet. funktionen skal kunne finde filmen, fx the godfather hvis bare man skriver god
-        // TODO: 21/11/2023 den skal spørge om man vil tilføje mediet til savedMedia eller om man vil se den med det samme
         for (Media m : allMedia) {
             if (m.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 found = true;
                 media.add(m);
-                //break;
             }
         }
         checkIfFound(found, media, currentUser, "title: \"" + title, "searchByName");
@@ -28,7 +27,6 @@ public class MainMenu {
 
     public void searchByCategories(String categories, User currentUser) {
         ArrayList<Media> titles = new ArrayList<>();
-        Media media = null;
 // TODO: 21/11/2023 skal kunne søge på flere kategorier på én gang
         // TODO: 21/11/2023 tilføj parameter currentUser og gør at media bliver tilføjet til seen efter play metode
         boolean found = false;
@@ -36,7 +34,6 @@ public class MainMenu {
             if (m.getCategories().contains(categories)) {
                 titles.add(m);
                 found = true;
-                media = m;
             }
         }
         checkIfFound(found, titles, currentUser, "categories: \""+categories, "searchByCategories");
@@ -93,9 +90,22 @@ public class MainMenu {
         else {
             selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Add to saved \n3) Return to main menu");
         }
-
+// TODO: 24-11-2023 brug klasser til season og episode således at vi kan gemme hvilke episoder der er blevet set. 
         if(selectResponse.equals("1")) {
-            currentUser.AddMediaToSeen(selected);
+            if(selected.getClass() == Show.class){
+                var showSeasonsAndEpisodes = ((Show)selected).getSeasonAndEpisodes();
+                int seasonInput = Integer.parseInt(ui.getInput("Select a season from 1 to " + showSeasonsAndEpisodes.get(showSeasonsAndEpisodes.size()-1).split("-")[0]));
+                if(seasonInput > 0 && seasonInput <= showSeasonsAndEpisodes.size()-1){
+                    int episodeInput = Integer.parseInt(ui.getInput("Select a episode from 1 to " + showSeasonsAndEpisodes.get(seasonInput).split("-")[1]));
+                    if(episodeInput > 0 && episodeInput <= Integer.parseInt(showSeasonsAndEpisodes.get(seasonInput).split("-")[1])){
+                        ((Show)selected).PlayEpisode(seasonInput,episodeInput);
+                        currentUser.AddMediaToSeen(selected);
+                    }
+                }
+            } else {
+                selected.Play();
+                currentUser.AddMediaToSeen(selected);
+            }
             //Play metode
         } else if (selectResponse.equals("2")){
             if(!exists){
