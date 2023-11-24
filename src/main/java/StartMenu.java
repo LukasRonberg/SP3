@@ -51,6 +51,7 @@ public class StartMenu {
             }
         }
 
+        textUI.displayMessage("The information you've entered isn't correct");
         return null;
     }
 }
