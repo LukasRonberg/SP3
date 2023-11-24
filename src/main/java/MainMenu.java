@@ -17,10 +17,10 @@ public class MainMenu {
         // TODO: 21/11/2023 brug contains og gem objektet. funktionen skal kunne finde filmen, fx the godfather hvis bare man skriver god
         // TODO: 21/11/2023 den skal spørge om man vil tilføje mediet til savedMedia eller om man vil se den med det samme
         for (Media m : allMedia) {
-            if (m.getTitle().equalsIgnoreCase(title)) {
+            if (m.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 found = true;
                 media.add(m);
-                break;
+                //break;
             }
         }
         checkIfFound(found, media, currentUser, "title: \"" + title, "searchByName");
@@ -53,14 +53,7 @@ public class MainMenu {
 
             if (choice != 0) {
                 Media selected = titles.get(choice - 1);
-                String selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Add to saved \n3) Return to main menu");
-                if(selectResponse.equals("1")) {
-                    currentUser.AddMediaToSeen(selected);
-                    //Play metode
-                } else if (selectResponse.equals("2")){
-                    ui.displayMessage("Added media to saved");
-                    currentUser.addMediaToSaved(selected);
-                }
+                mediaChoices(currentUser, selected);
             } else {
                 ui.displayMessage("Returning to Menu");
                 //Return til menu
@@ -85,6 +78,35 @@ public class MainMenu {
     }
 
 
+    private void mediaChoices(User currentUser, Media selected){
+        boolean exists = false;
+        String selectResponse;
+        for (Media media: currentUser.getSavedMedia()) {
+            if (media.Title.equals(selected.Title)) {
+                exists = true;
+                break;
+            }
+        }
+        if(exists) {
+            selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Remove from saved \n3) Return to main menu");
+        }
+        else {
+            selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Add to saved \n3) Return to main menu");
+        }
+
+        if(selectResponse.equals("1")) {
+            currentUser.AddMediaToSeen(selected);
+            //Play metode
+        } else if (selectResponse.equals("2")){
+            if(!exists){
+                ui.displayMessage("Added media to saved");
+                currentUser.addMediaToSaved(selected);
+            } else {
+                ui.displayMessage("Removed media from saved");
+                currentUser.removeFromSaved(selected);
+            }
+        }
+    }
     public void searchByYear(String yearReleased, User currentUser) {
         ArrayList<Media> years = new ArrayList<>();
         Media media = null;
@@ -140,20 +162,8 @@ public class MainMenu {
             }
 
             int choice = userChoice(savedMedia.size());
-            if(choice !=0){
-                Media selected = savedMedia.get(choice - 1);
-                String selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Return to main menu");
-                if(selectResponse.equals("1")) {
-                    currentUser.AddMediaToSeen(selected);
-                    //Play metode
-                }
-            } else {
-                ui.displayMessage("Returning to Menu");
-                //Return til menu
-            }
-            /*for (Media media : savedMedia) {
-                ui.displayMessage(media.getTitle());
-            }*/
+            Media selected = savedMedia.get(choice - 1);
+            mediaChoices(currentUser, selected);
         }
     }
     private int userChoice(int maxChoice){
