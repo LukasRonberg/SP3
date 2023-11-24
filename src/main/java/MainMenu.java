@@ -53,9 +53,14 @@ public class MainMenu {
 
             if (choice != 0) {
                 Media selected = titles.get(choice - 1);
-                ui.displayMessage("You selected: " + selected);
-                currentUser.AddMediaToSeen(selected);
-                //Play metode
+                String selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Add to saved \n3) Return to main menu");
+                if(selectResponse.equals("1")) {
+                    currentUser.AddMediaToSeen(selected);
+                    //Play metode
+                } else if (selectResponse.equals("2")){
+                    ui.displayMessage("Added media to saved");
+                    currentUser.addMediaToSaved(selected);
+                }
             } else {
                 ui.displayMessage("Returning to Menu");
                 //Return til menu
@@ -127,7 +132,7 @@ public class MainMenu {
         ArrayList<Media> savedMedia = currentUser.getSavedMedia();
         Media media = null;
         if (savedMedia.isEmpty()) {
-            ui.displayMessage("You have not watched anything yet.");
+            ui.displayMessage("You have not saved anything yet.");
         } else {
             ui.displayMessage("Your saved media: ");
             for (int i = 0; i < savedMedia.size(); i++) {
@@ -137,9 +142,11 @@ public class MainMenu {
             int choice = userChoice(savedMedia.size());
             if(choice !=0){
                 Media selected = savedMedia.get(choice - 1);
-                ui.displayMessage("You selected: " + selected);
-                currentUser.AddMediaToSeen(selected);
-                //Play metode
+                String selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Return to main menu");
+                if(selectResponse.equals("1")) {
+                    currentUser.AddMediaToSeen(selected);
+                    //Play metode
+                }
             } else {
                 ui.displayMessage("Returning to Menu");
                 //Return til menu
