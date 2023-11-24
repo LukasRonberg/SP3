@@ -94,10 +94,10 @@ public class MainMenu {
         if(selectResponse.equals("1")) {
             if(selected.getClass() == Show.class){
                 var showSeasonsAndEpisodes = ((Show)selected).getSeasonAndEpisodes();
-                int seasonInput = Integer.parseInt(ui.getInput("Select a season from 1 to " + showSeasonsAndEpisodes.get(showSeasonsAndEpisodes.size()-1).split("-")[0]));
+                int seasonInput = intParser(ui.getInput("Select a season from 1 to " + showSeasonsAndEpisodes.get(showSeasonsAndEpisodes.size()-1).split("-")[0]));
                 if(seasonInput > 0 && seasonInput <= showSeasonsAndEpisodes.size()-1){
-                    int episodeInput = Integer.parseInt(ui.getInput("Select a episode from 1 to " + showSeasonsAndEpisodes.get(seasonInput).split("-")[1]));
-                    if(episodeInput > 0 && episodeInput <= Integer.parseInt(showSeasonsAndEpisodes.get(seasonInput).split("-")[1])){
+                    int episodeInput = intParser(ui.getInput("Select a episode from 1 to " + showSeasonsAndEpisodes.get(seasonInput).split("-")[1]));
+                    if(episodeInput > 0 && episodeInput <= intParser(showSeasonsAndEpisodes.get(seasonInput).split("-")[1])){
                         ((Show)selected).PlayEpisode(seasonInput,episodeInput);
                         currentUser.AddMediaToSeen(selected);
                     }
@@ -106,7 +106,7 @@ public class MainMenu {
                 selected.Play();
                 currentUser.AddMediaToSeen(selected);
             }
-            //Play metode
+            // TODO: 24-11-2023 Ændre således at det virker hvis man søger andre steder end i viewsaved
         } else if (selectResponse.equals("2")){
             if(!exists){
                 ui.displayMessage("Added media to saved");
@@ -137,7 +137,7 @@ public class MainMenu {
         ArrayList<Media> rating = new ArrayList<>();
         boolean found = false;
         for (Media media : allMedia) {
-            if (media.getRating() == Rating) {
+            if (Objects.equals(media.getRating(), Rating)) {
                 rating.add(media);
                 found = true;
             }
@@ -180,7 +180,7 @@ public class MainMenu {
         int choice = 0;
         do {
             try {
-                choice = Integer.parseInt(ui.getInput("Enter the number to select the movie/show."));
+                choice = intParser(ui.getInput("Enter the number to select the movie/show."));
                 if (choice < 0 || choice > maxChoice) {
                     ui.displayMessage("Invalid. Please pick a number between 1 and " + maxChoice);
                 }
@@ -189,6 +189,15 @@ public class MainMenu {
             }
         } while (choice < 0 || choice > maxChoice);
         return choice;
+    }
+
+    private int intParser(String stringToParse){
+        try{
+            return Integer.parseInt(stringToParse);
+        } catch (NumberFormatException e){
+            return intParser(ui.getInput("Input wasn't a number please try again: "));
+
+        } //return 0;
     }
 
     public void startUp(){

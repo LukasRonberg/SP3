@@ -44,7 +44,15 @@ public class Main {
                     case "4":
                         //TODO Eksistere som en Double, skal have den til, at fungere iblandt de andre Strings
                         //Double ratingChoice = textUI.getInput("Press any of the keys to access content\n" +
-                        mainMenu.searchByRating((Double.parseDouble(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"))), currentUser);
+                        boolean accepted = false;
+                        while(!accepted){
+                            try{
+                                mainMenu.searchByRating((Double.parseDouble(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"))), currentUser);
+                                accepted = true;
+                            } catch (NumberFormatException e){
+                                textUI.displayMessage("Not a valid input please try again: ");
+                            }
+                        }
                         break;
                     case "5":
                         mainMenu.viewSeenMedia(currentUser);
