@@ -21,7 +21,7 @@ public class Main {
             }
         }
         if(currentUser != null && loggedIn){
-            mainMenu.startUp();
+            mainMenu.startUp(currentUser);
             while(true) {
                 String choice = textUI.getInput("Press any of the keys to access content\n" +
                         "1. Search By Name\n" +
@@ -33,13 +33,13 @@ public class Main {
                         "7. Quit");
                 switch (choice) {
                     case "1":
-                        mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"),currentUser);
+                        mainMenu.searchByName(textUI.getInput("Please enter the name of your desired movie"));
                         break;
                     case "2":
-                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"), currentUser);
+                        mainMenu.searchByCategories(textUI.getInput("Please enter the categories of your desired movie"));
                         break;
                     case "3":
-                        mainMenu.searchByYear(textUI.getInput("Please enter the year(s) of your desired movie"), currentUser);
+                        mainMenu.searchByYear(textUI.getInput("Please enter the year(s) of your desired movie"));
                         break;
                     case "4":
                         //TODO Eksistere som en Double, skal have den til, at fungere iblandt de andre Strings
@@ -47,7 +47,7 @@ public class Main {
                         boolean accepted = false;
                         while(!accepted){
                             try{
-                                mainMenu.searchByRating((Double.parseDouble(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"))), currentUser);
+                                mainMenu.searchByRating((Double.parseDouble(textUI.getInput("Please enter the Rating of your desired movie to find similar rated movie(s)"))));
                                 accepted = true;
                             } catch (NumberFormatException e){
                                 textUI.displayMessage("Not a valid input please try again: ");
@@ -55,10 +55,10 @@ public class Main {
                         }
                         break;
                     case "5":
-                        mainMenu.viewSeenMedia(currentUser);
+                        mainMenu.viewSeenMedia();
                         break;
                     case "6":
-                        mainMenu.viewSavedMedia(currentUser);
+                        mainMenu.viewSavedMedia();
                         break;
                     case "7":
                         System.out.println("Thank you for using our streaming website, the application will now close.");

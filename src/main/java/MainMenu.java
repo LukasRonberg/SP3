@@ -12,7 +12,9 @@ public class MainMenu {
     FileIO io = new FileIO();
     private ArrayList<Media> allMedia = new ArrayList<>();
 
-    public void searchByName(String title, User currentUser) {
+    private User currentUser;
+
+    public void searchByName(String title) {
         ArrayList<Media> media = new ArrayList<Media>();
 
         boolean found = false;
@@ -22,10 +24,10 @@ public class MainMenu {
                 media.add(m);
             }
         }
-        checkIfFound(found, media, currentUser, "title: \"" + title, "searchByName");
+        checkIfFound(found, media, "title: \"" + title, "searchByName");
     }
 
-    public void searchByCategories(String categories, User currentUser) {
+    public void searchByCategories(String categories) {
         ArrayList<Media> titles = new ArrayList<>();
 // TODO: 21/11/2023 skal kunne søge på flere kategorier på én gang
         // TODO: 21/11/2023 tilføj parameter currentUser og gør at media bliver tilføjet til seen efter play metode
@@ -36,10 +38,10 @@ public class MainMenu {
                 found = true;
             }
         }
-        checkIfFound(found, titles, currentUser, "categories: \""+categories, "searchByCategories");
+        checkIfFound(found, titles, "categories: \""+categories, "searchByCategories");
     }
 
-    private void checkIfFound(Boolean found, ArrayList<Media> titles, User currentUser, String SearchType, String currentFunction){
+    private void checkIfFound(Boolean found, ArrayList<Media> titles, String SearchType, String currentFunction){
         if (found) {
             ui.displayMessage("List of media that have the "+SearchType+"\": ");
             for (int i = 0; i < titles.size(); i++) {
@@ -50,7 +52,7 @@ public class MainMenu {
 
             if (choice != 0) {
                 Media selected = titles.get(choice - 1);
-                mediaChoices(currentUser, selected);
+                mediaChoices(selected);
             } else {
                 ui.displayMessage("Returning to Menu");
                 //Return til menu
@@ -60,13 +62,13 @@ public class MainMenu {
             if (response.equalsIgnoreCase("Y")) {
                 switch (currentFunction) {
                     case "searchByCategories" ->
-                            searchByCategories(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                            searchByCategories(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "));
                     case "searchByName" ->
-                            searchByName(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                            searchByName(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "));
                     case "searchByYear" ->
-                            searchByYear(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "), currentUser);
+                            searchByYear(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: "));
                     case "searchByRating" ->
-                            searchByRating(Double.parseDouble(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: ")), currentUser);
+                            searchByRating(Double.parseDouble(ui.getInput("Enter the " + SearchType.split(":")[0] + " to search again: ")));
                 }
             } else {
                 ui.displayMessage("Returning to menu");
@@ -75,7 +77,7 @@ public class MainMenu {
     }
 
 
-    private void mediaChoices(User currentUser, Media selected){
+    private void mediaChoices(Media selected){
         boolean exists = false;
         String selectResponse;
         for (Media media: currentUser.getSavedMedia()) {
@@ -117,7 +119,7 @@ public class MainMenu {
             }
         }
     }
-    public void searchByYear(String yearReleased, User currentUser) {
+    public void searchByYear(String yearReleased) {
         ArrayList<Media> years = new ArrayList<>();
         Media media = null;
         boolean found = false;
@@ -129,11 +131,11 @@ public class MainMenu {
             }
         }
 
-        checkIfFound(found, years,currentUser, "year(s): \""+yearReleased,"searchByYear");
+        checkIfFound(found, years, "year(s): \""+yearReleased,"searchByYear");
     }
 
 
-    public void searchByRating(Double Rating, User currentUser) {
+    public void searchByRating(Double Rating) {
         ArrayList<Media> rating = new ArrayList<>();
         boolean found = false;
         for (Media media : allMedia) {
@@ -142,11 +144,11 @@ public class MainMenu {
                 found = true;
             }
         }
-            checkIfFound(found, rating, currentUser, "rating: \"" +Rating, "searchByRating");
+            checkIfFound(found, rating, "rating: \"" +Rating, "searchByRating");
 
         //return rating;
     }
-    public void viewSeenMedia(User currentUser) {
+    public void viewSeenMedia() {
         ArrayList<Media> seenMedia = currentUser.getSeenMedia();
         if (seenMedia.isEmpty()) {
             ui.displayMessage("You have not watched anything yet.");
@@ -160,7 +162,7 @@ public class MainMenu {
 
     // TODO: 21/11/2023 Den skal give en liste over savedMedia og så skal man kunne vælge om man vil se en af sine gemte film/serier
     // TODO: 21/11/2023 eller gå tilbage til menuen.
-    public void viewSavedMedia(User currentUser) {
+    public void viewSavedMedia() {
         ArrayList<Media> savedMedia = currentUser.getSavedMedia();
         Media media = null;
         if (savedMedia.isEmpty()) {
@@ -178,7 +180,7 @@ public class MainMenu {
                 choice = userChoice(savedMedia.size());
             }
             Media selected = savedMedia.get(choice - 1);
-            mediaChoices(currentUser, selected);
+            mediaChoices(selected);
         }
     }
     private int userChoice(int maxChoice){
@@ -205,10 +207,11 @@ public class MainMenu {
         } //return 0;
     }
 
-    public void startUp(){
+    public void startUp(User user){
         ArrayList<Show> shows = io.readShowsFromFile("src/main/java/100bedsteserier.txt");
         ArrayList<Movie> movies = io.readMoviesFromFile("src/main/java/100bedstefilm.txt");
         allMedia.addAll(shows);
         allMedia.addAll(movies);
+        this.currentUser = user;
     }
 }
