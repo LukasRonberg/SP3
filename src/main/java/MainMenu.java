@@ -171,7 +171,12 @@ public class MainMenu {
                 ui.displayMessage((i + 1) + ") " + savedMedia.get(i));
             }
 
-            int choice = userChoice(savedMedia.size());
+            // TODO: 24-11-2023 ryk til mediachoice på en måde?????? 
+            int choice = 0;
+            while(choice > savedMedia.size() || choice < 1){
+
+                choice = userChoice(savedMedia.size());
+            }
             Media selected = savedMedia.get(choice - 1);
             mediaChoices(currentUser, selected);
         }
