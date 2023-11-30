@@ -36,7 +36,7 @@ public class DBConnector implements IO {
         Connection conn = null;
         PreparedStatement stmt = null;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
