@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.sql.Array;
 import java.util.*;
 
-public class FileIO {
+public class FileIO implements IO {
 
+    @Override
     public ArrayList<Show> readShowsFromFile (String path)
     {
         ArrayList<Show> data = new ArrayList<>();
@@ -36,6 +36,7 @@ public class FileIO {
         return data;
 
     }
+    @Override
     public ArrayList<Movie> readMoviesFromFile (String path)
     {
         ArrayList<Movie> data = new ArrayList<>();
@@ -118,7 +119,7 @@ public class FileIO {
         }
         return media;
     }
-
+@Override
     public HashSet<User> readUserData(String path) {
         HashSet<User> data = new HashSet<>();
         //instantier File
@@ -134,7 +135,7 @@ public class FileIO {
                 var seenSplit = splitString[2].split(":");
 
                 var savedSplit = splitString[3].split(":");
-                // TODO: 20-11-2023 Opsæt user ved hjælp af Mikkels arbejde 
+                // TODO: 20-11-2023 Opsæt user ved hjælp af Mikkels arbejde
                 data.add(new User(splitString[0],
                         splitString[1],
                         //new ,
@@ -151,7 +152,7 @@ public class FileIO {
         return data;
         //return null;
     }
-
+@Override
     public void saveUserData(HashSet<User> users) {
         try {
             FileWriter writer = new FileWriter("src/main/java/userdata.txt");
@@ -163,6 +164,7 @@ public class FileIO {
             System.out.println("noget gik galt ved skrivning til fil");
         }
     }
+    @Override
     public void saveUserData(HashSet<User> users, User currentUser) {
         try {
             FileWriter writer = new FileWriter("src/main/java/userdata.txt");
@@ -177,7 +179,7 @@ public class FileIO {
     }
 
 
-    // TODO: 21-11-2023 FIKS DETTE SÅ DET IKKE BLIVER OVERSKREVET 
+    // TODO: 21-11-2023 FIKS DETTE SÅ DET IKKE BLIVER OVERSKREVET
     public void appendSingleUser(User user){
         try {
             //FileWriter writer = new FileWriter("src/main/java/userdata.txt");
