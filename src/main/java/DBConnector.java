@@ -1,14 +1,15 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class DBConnector  {
+public class DBConnector implements IO {
 
     // database URL
     static final String DB_URL = "jdbc:mysql://localhost/world";
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "DatCPH23!";
+    static final String PASS = "OlPR!?Qgh768KGmn!?Qw4poQgcvx7890!?";
 
     @Override
     public ArrayList<Show> readShowsFromFile(String path) {
