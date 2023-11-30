@@ -10,7 +10,73 @@ public class DBConnector  {
     static final String USER = "root";
     static final String PASS = "DatCPH23!";
 
+    @Override
+    public ArrayList<Show> readShowsFromFile(String path) {
+        return null;
+    }
 
+    @Override
+    public ArrayList<Movie> readMoviesFromFile(String path) {
+        return null;
+    }
+
+    @Override
+    public HashSet<User> readUserData(String path) {
+        return null;
+    }
+
+    @Override
+    public void saveUserData(HashSet<User> users) {
+
+    }
+
+    @Override
+    public void saveUserData(HashSet<User> users, User currentUser) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            String sql = "INSERT INTO streaming.user (name,password) VALUES(" + currentUser.Username + "," + currentUser.Password + ")";
+
+            stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                //Retrieve by column name
+
+
+
+
+            }
+            //STEP 5: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }finally{
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }// nothing we can do
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }//end finally try
+        }
+    }
 
     public void readData() {
 
