@@ -12,16 +12,16 @@ public class StartMenu {
     }
 
     // TODO: 21-11-2023 Gør således at bruger har minimum antal tegn 
-    public void createUser() {
-        String username = textUI.getInput("Please enter your username below:");
-        String password = textUI.getInput("Please enter your password below:");
+    public boolean createUser(String username, String password) {
+        //String username = textUI.getInput("Please enter your username below:");
+        //String password = textUI.getInput("Please enter your password below:");
         start();
         boolean exists = false;
         if(userList.isEmpty()){
             userList.add(new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
             fileHandler.saveUserData(userList);
             textUI.displayMessage("Congratulations your user has been created!");
-            return;
+            return true;
         } else {
 
             for (User user : userList) {
@@ -29,24 +29,25 @@ public class StartMenu {
                 if (user.Username.equals(username)) {
                     textUI.displayMessage("Username already exists!");
                     exists = true;
-                    return;
+                    return false;
                 }
 
             }
             userList.add(new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
             fileHandler.saveUserData(userList);
             textUI.displayMessage("Congratulations your user has been created!");
-
+            return true;
         }
-
     }
 
-    public User login() {
-        String username = textUI.getInput("Please enter your username below:");
-        String password = textUI.getInput("Please enter your password below:");
+
+    public User login(String username, String password) {
+        //String username = textUI.getInput("Please enter your username below:");
+        //String password = textUI.getInput("Please enter your password below:");
 
         for (User user : userList) {
             if (username.equals(user.Username) && password.equals(user.Password)) {
+                System.out.println("logged in");
                 return user;
             }
         }

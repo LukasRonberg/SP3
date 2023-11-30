@@ -1,23 +1,30 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
-        FileIO fileHandler = new FileIO();
+    FileIO fileHandler = new FileIO();
         TextUI textUI = new TextUI();
         StartMenu startMenu = new StartMenu();
         MainMenu mainMenu = new MainMenu();
         User currentUser = null;
+        GUI gui = new GUI();
 
-        startMenu.start();
+
+        startMenu.createUser(gui.username, gui.password);
+
+        //startMenu.start();
+        gui.setUpGUI();
+
+        //startMenu.login(gui.username, gui.password);
         boolean loggedIn = false;
         while(!loggedIn) {
             String choice = textUI.getInput("Please enter 1 to login or 2 to register: ");
             if (choice.equals("1")) {
-                currentUser = startMenu.login();
+                //currentUser = startMenu.login();
                 if(currentUser != null) loggedIn = true;
             } else if (choice.equals("2")) {
-                startMenu.createUser();
+                //startMenu.createUser();
             }
         }
         if(currentUser != null && loggedIn){
@@ -82,5 +89,6 @@ public class Main {
         for (Show show : shows){
             System.out.println(show);
         }*/
+
     }
 }
