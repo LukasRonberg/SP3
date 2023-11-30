@@ -23,7 +23,7 @@ public class StartMenu {
         }
         else if(userList.isEmpty()){
             userList.add(new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
-            fileHandler.saveUserData(userList);
+            fileHandler.saveUserData(null,new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
             textUI.displayMessage("Congratulations your user has been created!");
             return;
         } else {
@@ -38,7 +38,7 @@ public class StartMenu {
 
             }
             userList.add(new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
-            fileHandler.saveUserData(userList);
+            fileHandler.saveUserData(null,new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
             textUI.displayMessage("Congratulations your user has been created!");
 
         }
