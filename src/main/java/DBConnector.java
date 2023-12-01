@@ -6,7 +6,7 @@ import java.util.HashSet;
 public class DBConnector implements IO {
 
     // database URL
-    static final String DB_URL = "jdbc:mysql://localhost/world";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/streaming";
 
     //  Database credentials
     static final String USER = "root";
@@ -100,31 +100,20 @@ public class DBConnector implements IO {
     }
 
     @Override
-    public void saveUserData(HashSet<User> users, User currentUser) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+    public boolean saveUserData(HashSet<User> users, User currentUser) {
+        Statement stmt = null;
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            String sql = "INSERT INTO streaming.user (name,password) VALUES('" + currentUser.Username + "','" + currentUser.Password + "')";
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
 
-            String sql = "INSERT INTO streaming.user (name,password) VALUES(" + currentUser.Username + "," + currentUser.Password + ")";
-
-            stmt = conn.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
-                //Retrieve by column name
-
-
-
-
-            }
-            //STEP 5: Clean-up environment
-            rs.close();
             stmt.close();
             conn.close();
 
+        }catch(SQLIntegrityConstraintViolationException e){
+            //System.out.println("Username already taken");
+            return false;
         }catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
