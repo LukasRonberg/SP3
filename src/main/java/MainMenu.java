@@ -10,6 +10,7 @@ import java.util.function.Function;
 public class MainMenu {
     TextUI ui = new TextUI();
     FileIO io = new FileIO();
+    DBConnector db = new DBConnector();
     private ArrayList<Media> allMedia = new ArrayList<>();
 
     private User currentUser;
@@ -92,7 +93,7 @@ public class MainMenu {
         else {
             selectResponse = ui.getInput("You selected: " + selected + ". \n1) Watch now \n2) Add to saved \n3) Return to main menu");
         }
-// TODO: 24-11-2023 brug klasser til season og episode således at vi kan gemme hvilke episoder der er blevet set. 
+// TODO: 24-11-2023 brug klasser til season og episode således at vi kan gemme hvilke episoder der er blevet set.
         if(selectResponse.equals("1")) {
             if(selected.getClass() == Show.class){
                 var showSeasonsAndEpisodes = ((Show)selected).getSeasonAndEpisodes();
@@ -173,7 +174,7 @@ public class MainMenu {
                 ui.displayMessage((i + 1) + ") " + savedMedia.get(i));
             }
 
-            // TODO: 24-11-2023 ryk til mediachoice på en måde?????? 
+            // TODO: 24-11-2023 ryk til mediachoice på en måde??????
             int choice = 0;
             while(choice > savedMedia.size() || choice < 1){
 
@@ -208,8 +209,8 @@ public class MainMenu {
     }
 
     public void startUp(User user){
-        ArrayList<Show> shows = io.readShowsFromFile("src/main/java/100bedsteserier.txt");
-        ArrayList<Movie> movies = io.readMoviesFromFile("src/main/java/100bedstefilm.txt");
+        ArrayList<Show> shows = db.readShowsFromFile("src/main/java/100bedsteserier.txt");
+        ArrayList<Movie> movies = db.readMoviesFromFile("src/main/java/100bedstefilm.txt");
         allMedia.addAll(shows);
         allMedia.addAll(movies);
         this.currentUser = user;
