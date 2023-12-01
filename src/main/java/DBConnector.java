@@ -10,7 +10,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "OlPR!?Qgh768KGmn!?Qw4poQgcvx7890!?";
+    static final String PASS = "Ppppaddy1";
     Connection conn = null;
 
     public void StartDBConnection() {
@@ -133,6 +133,8 @@ public class DBConnector implements IO {
                     String movieYear = resultSet.getString("movieYear");
                     String movieGenre = resultSet.getString("movieGenre");
                     Double movieRating = resultSet.getDouble("movieRating");
+
+                    if(movieName == null || movieName.isEmpty()) break;
                     ArrayList<String> aList = new ArrayList<String>(Arrays.asList(movieGenre.split(". ")));
                     Movie media = new Movie(movieName,movieYear+"", aList, movieRating);
                     seenMedia.add(media);

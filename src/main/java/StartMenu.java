@@ -20,6 +20,7 @@ public class StartMenu {
         if(userList  == null) {
             fileHandler.saveUserData(null,new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));
             textUI.displayMessage("Congratulations your user has been created!");
+            return true;
         }
         else if(userList.isEmpty()){
             userList.add(new User(username, password, new ArrayList<Media>(), new ArrayList<Media>()));

@@ -9,13 +9,17 @@ import java.util.function.Function;
 
 public class MainMenu {
     TextUI ui = new TextUI();
-    FileIO io = new FileIO();
+    //FileIO io = new FileIO();
+
+    IO io = new FileIO();
+    //IO io = new DBConnector();
+
     DBConnector db = new DBConnector();
     private ArrayList<Media> allMedia = new ArrayList<>();
 
     private User currentUser;
 
-    public void searchByName(String title) {
+    public ArrayList<Media> searchByName(String title) {
         ArrayList<Media> media = new ArrayList<Media>();
 
         boolean found = false;
@@ -25,7 +29,9 @@ public class MainMenu {
                 media.add(m);
             }
         }
+        //media =
         checkIfFound(found, media, "title: \"" + title, "searchByName");
+        return media;
     }
 
     public void searchByCategories(String categories) {
@@ -42,7 +48,7 @@ public class MainMenu {
         checkIfFound(found, titles, "categories: \""+categories, "searchByCategories");
     }
 
-    private void checkIfFound(Boolean found, ArrayList<Media> titles, String SearchType, String currentFunction){
+    private ArrayList<Media> checkIfFound(Boolean found, ArrayList<Media> titles, String SearchType, String currentFunction){
         if (found) {
             ui.displayMessage("List of media that have the "+SearchType+"\": ");
             for (int i = 0; i < titles.size(); i++) {
@@ -75,6 +81,7 @@ public class MainMenu {
                 ui.displayMessage("Returning to menu");
             }
         }
+        return titles;
     }
 
 

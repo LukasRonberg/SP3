@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
-    FileIO fileHandler = new FileIO();
+    IO fileHandler = new DBConnector();
         TextUI textUI = new TextUI();
         StartMenu startMenu = new StartMenu();
         MainMenu mainMenu = new MainMenu();
@@ -11,7 +11,7 @@ public class Main {
         GUI gui = new GUI();
 
 
-        startMenu.createUser(gui.username, gui.password);
+        //startMenu.createUser(gui.username, gui.password);
 
         //startMenu.start();
         gui.setUpGUI();
