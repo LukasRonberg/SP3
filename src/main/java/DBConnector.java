@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class DBConnector implements IO {
@@ -10,6 +11,27 @@ public class DBConnector implements IO {
     //  Database credentials
     static final String USER = "root";
     static final String PASS = "OlPR!?Qgh768KGmn!?Qw4poQgcvx7890!?";
+    Connection conn = null;
+
+    public void StartDBConnection() {
+
+        //Statement stmt = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public ArrayList<Show> readShowsFromFile(String path) {
@@ -18,12 +40,58 @@ public class DBConnector implements IO {
 
     @Override
     public ArrayList<Movie> readMoviesFromFile(String path) {
-        return null;
+        if(conn == null) StartDBConnection();
+        ArrayList<Movie> mediaList = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT name,year,genre, rating FROM streaming.movie");
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int year = rs.getInt("year");
+                String genre = rs.getString("genre");
+                Double rating = rs.getDouble("rating");
+                ArrayList<String> aList = new ArrayList<String>(Arrays.asList(genre.split(". ")));
+                // TODO: 30/11/2023 Skal også læse gemte og sete medier
+                Movie newUser = new Movie(name,year+"", aList,rating);
+                mediaList.add(newUser);
+                //System.out.println(lastName + "\n");
+
+            }
+            //conn.close(); skulle være ude for while loopet, for ellers lukker den connection hver gang loopet kører
+            conn.close();
+        } catch(SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+
+        return mediaList;
     }
 
     @Override
     public HashSet<User> readUserData(String path) {
-        return null;
+        if(conn == null) StartDBConnection();
+        HashSet<User> userList = new HashSet<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT name,password FROM streaming.user");
+
+            while (rs.next()) {
+                String password = rs.getString("password");
+                String username = rs.getString("name");
+                // TODO: 30/11/2023 Skal også læse gemte og sete medier
+                User newUser = new User(username,password,new ArrayList<Media>(),new ArrayList<Media>());
+                userList.add(newUser);
+                //System.out.println(lastName + "\n");
+
+            }
+            conn.close();
+        } catch(SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }
+
+        return userList;
     }
 
     @Override
@@ -77,6 +145,7 @@ public class DBConnector implements IO {
                 se.printStackTrace();
             }//end finally try
         }
+        return true;
     }
 
     public void readData() {
