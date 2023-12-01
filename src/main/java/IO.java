@@ -8,5 +8,5 @@ public interface IO {
 
     void saveUserData(HashSet<User> users);
 
-    void saveUserData(HashSet<User> users, User currentUser);
+    boolean saveUserData(HashSet<User> users, User currentUser);
 }

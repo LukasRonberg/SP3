@@ -165,7 +165,7 @@ public class FileIO implements IO {
         }
     }
     @Override
-    public void saveUserData(HashSet<User> users, User currentUser) {
+    public boolean saveUserData(HashSet<User> users, User currentUser) {
         try {
             FileWriter writer = new FileWriter("src/main/java/userdata.txt");
             for (User user : users) {
@@ -173,8 +173,10 @@ public class FileIO implements IO {
                 else writer.write(user.Username + ";"+ user.Password + ";" + user.getSavedMedia() + ";" + user.getSeenMedia() + ";\n");
             }
             writer.close();
+            return true;
         } catch (IOException e) {
             System.out.println("noget gik galt ved skrivning til fil");
+            return false;
         }
     }
 

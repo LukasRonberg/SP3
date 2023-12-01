@@ -1,6 +1,0 @@
-paddy;paddy;[];[Raging Bull. 1980. [Biography, Drama, Sport]. 8.2:,   Raiders Of The Lost Ark. 1981. [Action, Adventure]. 8.5:];
-hehe;hehe;[];[];
-MikkelManden;Nemt;[];[];
-dede;dee;[];[Rome. 2005-2007. [Action, Drama, History]. 8.8:];
-d;d;[];[The Sopranos. 1999-2007. [Crime, Drama]. 9.2:,          The Godfather. 1972. [Crime, Drama]. 9.2:,         Luke Cage. 2016-2018. [Action, Crime, Drama]. 7.5:];
-;;[];[The Godfather. 1972. [Crime, Drama]. 9.2:, Rebel Without A Cause. 1955. [Drama]. 7.8:, Spaced. 1999-2001. [Action, Comedy]. 8.6. [1-7, 2-7]:];
