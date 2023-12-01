@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        FileIO fileHandler = new FileIO();
+        IO io = new FileIO();
+        //IO io = new DBConnector();
         TextUI textUI = new TextUI();
         StartMenu startMenu = new StartMenu();
         MainMenu mainMenu = new MainMenu();
@@ -62,7 +63,7 @@ public class Main {
                         break;
                     case "7":
                         System.out.println("Thank you for using our streaming website, the application will now close.");
-                        fileHandler.saveUserData(fileHandler.readUserData("src/main/java/userdata.txt"), currentUser);
+                        io.saveUserData(io.readUserData("src/main/java/userdata.txt"), currentUser);
                         System.exit(0);
                         break;
                 }

@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 public class MainMenu {
     TextUI ui = new TextUI();
-    FileIO io = new FileIO();
-    DBConnector db = new DBConnector();
+    IO io = new FileIO();
+    //IO io = new DBConnector();
     private ArrayList<Media> allMedia = new ArrayList<>();
 
     private User currentUser;
@@ -209,8 +209,8 @@ public class MainMenu {
     }
 
     public void startUp(User user){
-        ArrayList<Show> shows = db.readShowsFromFile("src/main/java/100bedsteserier.txt");
-        ArrayList<Movie> movies = db.readMoviesFromFile("src/main/java/100bedstefilm.txt");
+        ArrayList<Show> shows = io.readShowsFromFile("src/main/java/100bedsteserier.txt");
+        ArrayList<Movie> movies = io.readMoviesFromFile("src/main/java/100bedstefilm.txt");
         allMedia.addAll(shows);
         allMedia.addAll(movies);
         this.currentUser = user;

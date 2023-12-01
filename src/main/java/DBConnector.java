@@ -106,13 +106,41 @@ public class DBConnector implements IO {
         HashSet<User> userList = new HashSet<>();
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT name,password FROM streaming.users");
+            ResultSet rs = stmt.executeQuery("SELECT userID,name,password FROM streaming.users");
 
             while (rs.next()) {
+                int userID = rs.getInt("userID");
                 String password = rs.getString("password");
                 String username = rs.getString("name");
                 // TODO: 30/11/2023 Skal også læse gemte og sete medier
-                User newUser = new User(username,password,new ArrayList<Media>(),new ArrayList<Media>());
+
+
+                ArrayList<Media> seenMedia = new ArrayList<Media>();
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT users.userID, \n" +
+                        "       watched_media.movieID AS watchedMovieID, \n" +
+                        "       movies.name AS movieName,\n" +
+                        "       movies.year AS movieYear,\n" +
+                        "       movies.genre AS movieGenre,\n" +
+                        "       movies.rating AS movieRating\n" +
+                        "FROM users\n" +
+                        "LEFT JOIN watched_media ON users.userID = watched_media.userID\n" +
+                        "LEFT JOIN movies ON watched_media.movieID = movies.movieID\n" +
+                        "WHERE users.userID = "+userID+";");
+
+                while(resultSet.next()){
+                    String movieName = resultSet.getString("movieName");
+                    String movieYear = resultSet.getString("movieYear");
+                    String movieGenre = resultSet.getString("movieGenre");
+                    Double movieRating = resultSet.getDouble("movieRating");
+                    if(movieName == null || movieName.isEmpty()) break;
+                    ArrayList<String> aList = new ArrayList<String>(Arrays.asList(movieGenre.split(". ")));
+                    Movie media = new Movie(movieName,movieYear+"", aList, movieRating);
+                    seenMedia.add(media);
+                }
+
+
+                User newUser = new User(username,password, seenMedia,new ArrayList<Media>());
                 userList.add(newUser);
                 //System.out.println(lastName + "\n");
 
